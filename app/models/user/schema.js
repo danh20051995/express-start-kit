@@ -7,11 +7,14 @@
 const schema = {
   username: {
     type: String,
+    trim: true,
+    uppercase: true,
     unique: 'User already exists',
     required: 'Please enter username!'
   },
   email: {
     type: String,
+    trim: true,
     unique: 'Email already exists',
     required: 'Please enter email!'
   },
@@ -20,6 +23,7 @@ const schema = {
   },
   password: {
     type: String,
+    trim: true,
     required: 'Please enter password!'
   },
   status: {

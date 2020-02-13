@@ -26,7 +26,8 @@ const UserSchema = new Schema(schema, options)
 /**
 * Plugins
 */
-UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+UserSchema.statics.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
+UserSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
 UserSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password)
 }

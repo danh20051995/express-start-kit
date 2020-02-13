@@ -11,7 +11,7 @@ module.exports = {
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
   extends: [
-    'standard',
+    'standard'
     // "eslint:recommended",
     // "plugin:node/recommended"
   ],
@@ -24,6 +24,13 @@ module.exports = {
   rules: {
     // allow async-await
     'generator-star-spacing': 'off',
+    'space-before-function-paren': 'off',
+    // ignore prefer-const
+    'prefer-const': 'off',
+    // ignore array-bracket-spacing
+    'array-bracket-spacing': 'off',
+    // ignore computed-property-spacing 
+    'computed-property-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

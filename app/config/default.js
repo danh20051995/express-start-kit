@@ -5,6 +5,12 @@ const Pack = require(global.BASE_PATH + '/package')
 
 config = {
   name: Pack.name,
+  connection: {
+    port: 3001
+  },
+  db: {
+    uri: 'mongodb://127.0.0.1:27017/db_express_start_kit'
+  },
   session: {
     secret: '6ketaq3cgSDffg878fgo315rk9',
     resave: false,
@@ -14,9 +20,6 @@ config = {
       secure: false, // true on https
       maxAge: 24 * 60 * 60 * 1000 // expires a day from today
     }
-  },
-  db: {
-    uri: 'mongodb://127.0.0.1:27017/db_express_start_kit'
   },
   cookieOptions: {
     ttl: 24 * 60 * 60 * 1000, // expires a day from today
@@ -65,9 +68,6 @@ config = {
   },
   uploadTypes: [ 'jpg', 'jpeg', 'png', 'gif', 'pdf', 'docx', 'csv', 'pptx', 'xlsx', 'mp3', 'mp4', 'webm', 'mkv', 'flv', 'vob', 'ogv', 'ogg', 'drc', 'gifv', 'mng', 'avi', 'mov', 'qt', 'wmv', 'yuv', 'rm', 'rmvb', 'asf', 'amv', 'm4p', 'm4v', 'mpg', 'mp2', 'mpeg', 'mpe', 'mpv', 'svi', '3gp', '3g2', 'mxf', 'roq', 'nsv', 'f4v', 'f4p', 'f4a', 'f4b' ],
   uploadMaxSize: 104857600, // 100MB
-  connection: {
-    port: 3001
-  },
   jwt: {
     secret: 'jKErFl345ghLoPrlafasTHdfgDsdf0werr'
   },

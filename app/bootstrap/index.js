@@ -7,6 +7,7 @@
 import Path from 'path'
 import Glob from 'glob'
 import express from 'express'
+import cors from 'cors'
 import nunjucks from 'nunjucks'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
@@ -32,10 +33,13 @@ module.exports = async app => {
   require('../lib/mongo')()
 
   // autoload models
-  let models = Glob.sync(global.BASE_PATH + '/app/models/*/model*.js', {})
+  let models = Glob.sync(global.BASE_PATH + '/app/models/*/index.js', {})
   for (let model of models) {
     require(Path.resolve(model))
   }
+
+  // allow cross site origin
+  app.use(cors())
 
   // boom response
   app.use(boom())
@@ -73,10 +77,10 @@ module.exports = async app => {
   app.use(session(config.get('session')))
   app.use(flash())
 
-  // load middlewares
-  let middlewares = Glob.sync(global.BASE_PATH + `/app/middlewares/*.js`, {})
-  for (let middleware of middlewares) {
-    app.use(require(Path.resolve(middleware)))
+  // load middleware
+  let middleware = Glob.sync(global.BASE_PATH + `/app/middleware/*.js`, {})
+  for (let middle of middleware) {
+    app.use(require(Path.resolve(middle)))
   }
 
   // autoload web modules
@@ -88,7 +92,10 @@ module.exports = async app => {
   // autoload api modules
   modules = Glob.sync(global.BASE_PATH + `/app/modules/api/*/index.js`, {})
   for (let mod of modules) {
-    app.use(config.get('context.apiPrefix'), require(Path.resolve(mod)))
+    app.use(
+      config.get('context.apiPrefix'),
+      require(Path.resolve(mod))
+    )
   }
 
   // setup error

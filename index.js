@@ -1,8 +1,8 @@
 'use strict'
 
 require('core-js')
-require('babel-core/register')
-require('babel-polyfill')
+require('@babel/register')
+require('@babel/polyfill')
 require('module-alias/register')
 
 const os = require('os')

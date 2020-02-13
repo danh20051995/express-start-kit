@@ -5,10 +5,12 @@
 * Date: 2019-01-18 17:37:41
 */
 import mongoose from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
+
+const mongoosePaginate = require('./mongoose-paginate')
 
 module.exports = async () => {
   mongoose.set('useCreateIndex', true)
+  // mongoose.set('useUnifiedTopology', true)
   mongoose.plugin(mongoosePaginate)
 
   mongoose.connection.on('connecting', () => {

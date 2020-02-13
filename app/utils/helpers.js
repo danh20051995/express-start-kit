@@ -35,12 +35,32 @@ const getFirstValidateError = error => {
   return ''
 }
 
+/**
+ * Random string
+ * @param {Number} length
+ */
+const randStr = (length = 9, noLowerCase, noUpperCase, noNumber) => {
+  let lowers = 'abcdefghijklmnopqrstuvwxyz'
+  let uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let numbers = '0123456789'
+  let chars = `${noLowerCase ? '' : lowers}${noUpperCase ? '' : uppers}${noNumber ? '' : numbers}`
+  let str = ''
+
+  for (let i = 0; i < length; i++) {
+    str += chars[Math.floor(Math.random() * chars.length)]
+  }
+
+  return str
+}
+
 export {
+  randStr,
   dateFormat,
   getFirstValidateError
 }
 
 export default {
+  randStr,
   dateFormat,
   getFirstValidateError
 }
