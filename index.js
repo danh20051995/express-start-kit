@@ -19,8 +19,15 @@ global.BASE_VIEW = path.join(__dirname, '/app/views')
 process.env.NODE_CONFIG_DIR = path.join(__dirname, '/app/config')
 global.CONFIG = require('config')
 
-;(async () => {
+const init = async () => {
   await require('./app/bootstrap')(app)
   let port = global.CONFIG.get('connection.port')
   app.listen(port, '0.0.0.0', () => console.log('App listening at http://%s:%s', os.hostname(), port))
-})()
+}
+
+process.on('unhandledRejection', err => {
+  console.log(err)
+  process.exit(1)
+})
+
+init()
