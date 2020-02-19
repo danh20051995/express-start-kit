@@ -5,7 +5,7 @@
 * Date: 2019-01-18 19:04:21
 */
 import path from 'path'
-import File from '@utils/file'
+import File from '_utils/file'
 import { ValidationError } from 'express-validation'
 const config = global.CONFIG
 const uploadTypes = config.get('uploadTypes')

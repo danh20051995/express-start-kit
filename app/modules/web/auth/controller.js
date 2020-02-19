@@ -4,7 +4,7 @@
 * User: Danh Le / danh.danh20051995@gmail.com
 * Date: 2019-01-18 17:38:55
 */
-import Auth from '@utils/auth'
+import Auth from '_utils/auth'
 import mongoose from 'mongoose'
 const User = mongoose.model('User')
 

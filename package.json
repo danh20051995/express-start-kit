@@ -14,9 +14,9 @@
   "author": "danh.danh20051995@gmail.com",
   "license": "ISC",
   "_moduleAliases": {
-    "@root": ".",
-    "@utils": "app/utils",
-    "@modules": "app/modules"
+    "_root": ".",
+    "_utils": "app/utils",
+    "_modules": "app/modules"
   },
   "dependencies": {
     "aguid": "^2.0.0",

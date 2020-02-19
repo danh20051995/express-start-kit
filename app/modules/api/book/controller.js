@@ -6,8 +6,8 @@
 */
 import path from 'path'
 import mongoose from 'mongoose'
-import File from '@utils/file'
-import Image from '@utils/image'
+import File from '_utils/file'
+import Image from '_utils/image'
 
 const Book = mongoose.model('Book')
 const config = global.CONFIG

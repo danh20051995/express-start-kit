@@ -6,7 +6,7 @@
 */
 import express from 'express'
 import validate from 'express-validation'
-import Auth from '@utils/auth'
+import Auth from '_utils/auth'
 import Validate from './validate'
 import Controller from './controller'
 const router = express.Router()

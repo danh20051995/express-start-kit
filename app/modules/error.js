@@ -5,7 +5,7 @@
 * Date: 2019-01-18 17:38:51
 */
 import ev from 'express-validation'
-import { getFirstValidateError } from '@utils/helpers'
+import { getFirstValidateError } from '_utils/helpers'
 
 module.exports = app => {
   app.get('/403', (req, res) => {

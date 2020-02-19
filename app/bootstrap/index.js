@@ -14,7 +14,7 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import flash from 'connect-flash'
 import boom from 'express-boom'
-import File from '@utils/file'
+import File from '_utils/file'
 
 const config = global.CONFIG
 
