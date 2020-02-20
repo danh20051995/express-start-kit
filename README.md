@@ -22,8 +22,9 @@ npm i&&npm run start
 - [module-alias](https://www.npmjs.com/package/module-alias) | Create aliases of directories and register custom module paths
 - [nunjucks](https://www.npmjs.com/package/nunjucks) | template engine for javascript
 - [express](https://www.npmjs.com/package/express) | a NodeJS framework
-- [mongoose](https://www.npmjs.com/package/mongoose) | a MongoDB object modeling tool
 - [config](https://www.npmjs.com/package/config) | a Node organizes hierarchical configurations
+- [mongoose](https://www.npmjs.com/package/mongoose) | a MongoDB object modeling tool
+- [ioredis](https://github.com/luin/ioredis) | a Redis client for Node.js
 
 ## Authenticate
 admin/admin
