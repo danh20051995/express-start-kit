@@ -5,7 +5,7 @@
 * Date: 2019-01-18 17:37:37
 */
 import Path from 'path'
-import Glob from 'glob'
+import glob from 'glob'
 import express from 'express'
 import cors from 'cors'
 import nunjucks from 'nunjucks'
@@ -32,8 +32,8 @@ module.exports = async app => {
   // mongoDB
   require('../lib/mongo')()
 
-  // autoload models
-  let models = Glob.sync(global.BASE_PATH + '/app/models/*/index.js', {})
+  // auto load models
+  let models = glob.sync(global.BASE_PATH + '/app/model/*/index.js', {})
   for (let model of models) {
     require(Path.resolve(model))
   }
@@ -78,20 +78,20 @@ module.exports = async app => {
   app.use(flash())
 
   // load middleware
-  let middleware = Glob.sync(global.BASE_PATH + `/app/middleware/*.js`, {})
+  let middleware = glob.sync(global.BASE_PATH + `/app/middleware/*.js`, {})
   for (let middle of middleware) {
     app.use(require(Path.resolve(middle)))
   }
 
-  // autoload web modules
-  let modules = Glob.sync(global.BASE_PATH + `/app/modules/web/*/index.js`, {})
-  for (let mod of modules) {
+  // auto load web modules
+  let apiModules = glob.sync(global.BASE_PATH + `/app/module/web/*/index.js`, {})
+  for (let mod of apiModules) {
     app.use('/', require(Path.resolve(mod)))
   }
 
-  // autoload api modules
-  modules = Glob.sync(global.BASE_PATH + `/app/modules/api/*/index.js`, {})
-  for (let mod of modules) {
+  // auto  load api modules
+  let webModules = glob.sync(global.BASE_PATH + `/app/module/api/*/index.js`, {})
+  for (let mod of webModules) {
     app.use(
       config.get('context.apiPrefix'),
       require(Path.resolve(mod))
@@ -99,5 +99,5 @@ module.exports = async app => {
   }
 
   // setup error
-  require('../modules/error')(app)
+  require('../module/error')(app)
 }

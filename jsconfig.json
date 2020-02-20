@@ -5,7 +5,7 @@
     "paths": {     
       "_root/*": ["*"],
       "_utils/*": ["app/utils/*"],
-      "_modules/*": ["app/modules/*"]
+      "_module/*": ["app/module/*"]
     }
   },
   "exclude": ["node_modules"]
