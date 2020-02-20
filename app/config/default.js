@@ -6,10 +6,21 @@ const Pack = require(global.BASE_PATH + '/package')
 config = {
   name: Pack.name,
   connection: {
-    port: 3001
+    port: 3000
   },
   db: {
     uri: 'mongodb://127.0.0.1:27017/db_express_start_kit'
+  },
+  redisOptions: {
+    host: '127.0.0.1',
+    port: 6379,
+    detect_buffers: true
+  },
+  jwt: {
+    secret: 'jKErFl345ghLoPrlafasTHdfgDsdf0werr'
+  },
+  date: {
+    format: 'MMM DD, YYYY'
   },
   session: {
     secret: '6ketaq3cgSDffg878fgo315rk9',
@@ -29,19 +40,6 @@ config = {
     clearInvalid: false, // remove invalid cookies
     strictHeader: true, // don't allow violations of RFC 6265
     path: '/' // set the cookie for all routes
-  },
-  date: {
-    format: 'MMM DD, YYYY'
-  },
-  paging: {
-    defaultPageSize: 25,
-    numberVisiblePages: 10,
-    itemsPerPage: 20
-  },
-  redisOptions: {
-    host: '127.0.0.1',
-    port: 6379,
-    detect_buffers: true
   },
   mailer: {
     options: {
@@ -68,9 +66,6 @@ config = {
   },
   uploadTypes: [ 'jpg', 'jpeg', 'png', 'gif', 'pdf', 'docx', 'csv', 'pptx', 'xlsx', 'mp3', 'mp4', 'webm', 'mkv', 'flv', 'vob', 'ogv', 'ogg', 'drc', 'gifv', 'mng', 'avi', 'mov', 'qt', 'wmv', 'yuv', 'rm', 'rmvb', 'asf', 'amv', 'm4p', 'm4v', 'mpg', 'mp2', 'mpeg', 'mpe', 'mpv', 'svi', '3gp', '3g2', 'mxf', 'roq', 'nsv', 'f4v', 'f4p', 'f4a', 'f4b' ],
   uploadMaxSize: 104857600, // 100MB
-  jwt: {
-    secret: 'jKErFl345ghLoPrlafasTHdfgDsdf0werr'
-  },
   context: {
     apiPrefix: '/api',
     adminPrefix: '/admin',

@@ -23,6 +23,7 @@ npm i&&npm run start
 - [nunjucks](https://www.npmjs.com/package/nunjucks) | template engine for javascript
 - [express](https://www.npmjs.com/package/express) | a NodeJS framework
 - [mongoose](https://www.npmjs.com/package/mongoose) | a MongoDB object modeling tool
+- [config](https://www.npmjs.com/package/config) | a Node organizes hierarchical configurations
 
 ## Authenticate
 admin/admin
