@@ -89,7 +89,7 @@ const postRegister = async (req, res) => {
       throw new Error('Email or user name already exists.')
     }
 
-    payload.password = await Auth.generateHash(payload.password)
+    payload.password = await User.generateHash(payload.password)
     await User.create(payload)
     return res.redirect('/login')
   } catch (error) {

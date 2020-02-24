@@ -6,18 +6,8 @@
 */
 import Auth from '_utils/auth'
 import mongoose from 'mongoose'
-const User = mongoose.model('User')
 
-// Auto create admin user
-User
-  .create({
-    roles: [ 'admin' ],
-    email: 'admin@email.com',
-    username: 'admin',
-    password: '$2b$09$Aept2rI59KWze3U8h5yJBu7awEZvflehWTiQCojNzDWGy6HGU/LNq' // admin
-  })
-  .then(() => console.log('Login with: admin/admin'))
-  .catch(() => console.log('Login with: admin/admin'))
+const User = mongoose.model('User')
 
 /**
  * User login

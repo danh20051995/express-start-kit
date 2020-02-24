@@ -89,7 +89,7 @@ module.exports = async app => {
     app.use('/', require(Path.resolve(mod)))
   }
 
-  // auto  load api modules
+  // auto load api modules
   let webModules = glob.sync(global.BASE_PATH + `/app/module/api/*/index.js`, {})
   for (let mod of webModules) {
     app.use(
