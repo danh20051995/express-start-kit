@@ -1,9 +1,9 @@
 /**
-* File name: error.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 17:38:51
-*/
+ * File name: error.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 17:38:51
+ */
 import ev from 'express-validation'
 import { getFirstValidateError } from '_utils/helpers'
 

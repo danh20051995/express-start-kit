@@ -1,9 +1,9 @@
 /**
-* File name: controller.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 17:38:39
-*/
+ * File name: controller.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 17:38:39
+ */
 import path from 'path'
 import mongoose from 'mongoose'
 import File from '_utils/file'

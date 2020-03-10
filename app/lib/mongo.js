@@ -1,9 +1,9 @@
 /**
-* File name: mongo.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 17:37:41
-*/
+ * File name: mongo.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 17:37:41
+ */
 import mongoose from 'mongoose'
 
 const mongoosePaginate = require('./mongoose-paginate')

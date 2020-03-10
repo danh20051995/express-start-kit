@@ -1,9 +1,9 @@
 /**
-* File name: index.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 17:38:43
-*/
+ * File name: index.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 17:38:43
+ */
 import multer from 'multer'
 import express from 'express'
 import validate from 'express-validation'

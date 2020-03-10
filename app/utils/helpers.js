@@ -1,9 +1,9 @@
 /**
-* File name: helpers.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 17:39:24
-*/
+ * File name: helpers.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 17:39:24
+ */
 import moment from 'moment'
 const config = global.CONFIG
 

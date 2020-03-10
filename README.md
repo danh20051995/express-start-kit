@@ -53,11 +53,11 @@ npm run start
     │   │
     │   ├── error.js  # error handler
     │   │
-    │   ├── api # REStful modules
+    │   ├── api # RESTful modules
     │   │   ├── auth     # authentication module
     │   │   ├── book     # sample CRUD api
     │   │   ├── core     # sample file upload
-    │   │   ├── <module> # each module is a hapi plugin register
+    │   │   ├── <module> # sample module skeleton
     │   │   │   ├── index.js        # route register
     │   │   │   ├── validate.js     # route validator
     │   │   │   ├── controller.js   # route handler
@@ -66,7 +66,7 @@ npm run start
     │   ├── web # web SSR modules
     │   │   ├── auth     # authentication module
     │   │   ├── home     # currently display home page only
-    │   │   ├── <module> # each module is a hapi plugin register
+    │   │   ├── <module> # sample module skeleton
     │   │   │   ├── index.js        # route register
     │   │   │   ├── validate.js     # route validator
     │   │   │   ├── controller.js   # route handler
@@ -75,7 +75,7 @@ npm run start
     │   └── ...
     ├── views
     │   ├── errors  # error page name by status code
-    │   ├── layouts  # template layout
+    │   ├── layouts # template layout
     │   ├── pages   # template files
     │   └── partial # template partial
     └── ...

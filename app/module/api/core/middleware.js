@@ -1,9 +1,9 @@
 /**
-* File name: middleware.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 19:04:21
-*/
+ * File name: middleware.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 19:04:21
+ */
 import path from 'path'
 import File from '_utils/file'
 import { ValidationError } from 'express-validation'

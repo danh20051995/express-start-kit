@@ -1,9 +1,9 @@
 /**
-* File name: image.js
-* Created by Visual studio code
-* User: Danh Le / danh.danh20051995@gmail.com
-* Date: 2019-01-18 19:21:34
-*/
+ * File name: image.js
+ * Created by Visual studio code
+ * User: Danh Le / danh.danh20051995@gmail.com
+ * Date: 2019-01-18 19:21:34
+ */
 import fs from 'fs'
 import sharp from 'sharp'
 const format = 'jpeg'
@@ -56,7 +56,7 @@ const resizeReplace = async (filePath, width, height) => {
  * @param inputPath String
  * @param outputPath String
  * @return {Promise}
-*/
+ */
 const makeThumb = async (inputPath, outputPath) => {
   let originMeta = await getMeta(inputPath)
   // let thumb300Path = outputPath.replace(/(\.[a-zA-Z0-9]*)$/g, '-300$1')
