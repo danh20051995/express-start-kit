@@ -17,6 +17,10 @@ module.exports = async () => {
     console.info('Connecting to MongoDB...')
   })
 
+  mongoose.connection.on('connected', () => {
+    console.info('MongoDB connected.')
+  })
+
   mongoose.connection.on('reconnected', () => {
     console.info('MongoDB reconnected!')
   })
