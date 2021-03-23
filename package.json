@@ -24,8 +24,8 @@
     "eslint"
   ],
   "scripts": {
+    "start": "nodemon --exec npm-run-all --serial eslint dev",
     "eslint": "eslint --format node_modules/eslint-friendly-formatter index.js app/",
-    "start": "nodemon --exec npm-run-all --parallel dev eslint",
     "dev": "cross-env NODE_ENV=development node --inspect=0.0.0.0:9229 index.js",
     "staging": "cross-env NODE_ENV=staging node index.js",
     "production": "cross-env NODE_ENV=production node index.js"
