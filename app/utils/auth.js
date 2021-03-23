@@ -5,7 +5,7 @@
  * Date: 2019-01-18 17:39:15
  */
 import JWT from 'jsonwebtoken'
-import Bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 const config = global.CONFIG
 
@@ -16,7 +16,7 @@ const config = global.CONFIG
  * @return {Promise}
  */
 const compare = (plainPassword, hashPassword) => {
-  return Bcrypt
+  return bcrypt
     .compare(plainPassword, hashPassword)
     .then(valid => {
       if (valid) {
