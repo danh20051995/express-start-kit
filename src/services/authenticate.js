@@ -176,7 +176,7 @@ export class AuthenticateService {
 
     token.key = [
       'credentials',
-      this.#_ref.substring(0, this.#_ref.length - 2),
+      this.#_ref.replace(/Id$/gi, ''),
       moment(this.#_timestamp).format('YYYY:MM:DD'),
       this.#_profile._id,
       token._id
