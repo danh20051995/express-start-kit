@@ -1,37 +1,45 @@
-// https://eslint.org/docs/user-guide/configuring
-
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  env: {
+    node: true,
+    es6: true
+  },
+  parser: '@babel/eslint-parser',
   parserOptions: {
     sourceType: 'module'
   },
-  env: {
-    browser: true
-  },
-  // https://github.com/standard/standard/blob/master/docs/RULES-en.md
   extends: [
-    'standard'
-    // "eslint:recommended",
-    // "plugin:node/recommended"
+    'standard',
+    'eslint:recommended'
   ],
-  // // required to lint *.vue files
-  plugins: [
-    'node'
-  ],
-
-  // add your custom rules here
+  plugins: ['node'],
   rules: {
-    // allow async-await
-    'generator-star-spacing': 'off',
-    'space-before-function-paren': 'off',
-    // ignore prefer-const
-    'prefer-const': 'off',
-    // ignore array-bracket-spacing
-    'array-bracket-spacing': 'off',
-    // ignore computed-property-spacing 
-    'computed-property-spacing': 'off',
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    semi: ['error', 'never'],
+    indent: ['error', 2, { SwitchCase: 1 }],
+    quotes: ['error', 'single'],
+    eqeqeq: ['error', 'always'],
+    'eol-last': ['error', 'always'],
+    'no-console': 'off',
+    'comma-dangle': ['error', 'never'],
+    'padded-blocks': ['error', 'never'],
+    'no-cond-assign': ['error', 'always'],
+    'no-multi-spaces': 'error',
+    'no-trailing-spaces': 'error',
+    'prefer-const': ['error', {
+      destructuring: 'any',
+      ignoreReadBeforeAssign: false
+    }],
+    'no-multiple-empty-lines': ['error', {
+      max: 1,
+      maxEOF: 0,
+      maxBOF: 0
+    }],
+    'key-spacing': [
+      2,
+      {
+        singleLine: { beforeColon: false, afterColon: true }
+        // "multiLine": { "beforeColon": false, "afterColon": true, "align": "colon" }
+      }
+    ]
   }
 }

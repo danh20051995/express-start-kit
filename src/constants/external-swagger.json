@@ -1,0 +1,11 @@
+{
+  "openapi": "3.0.0",
+  "servers": [{
+    "url": "http://prod.example.com/api/v1",
+    "description": "Production"
+  }],
+  "info": {},
+  "tags": [],
+  "components": {},
+  "paths": {}
+}

@@ -3,15 +3,18 @@
 # dependencies
 /node_modules
 /public
+/temp
 
 # Ignore config files
-app/config/development.js
-app/config/production.js
-app/config/staging.js
+src/config/development.js
+src/config/production.js
+src/config/staging.js
 
 # misc
-.vscode
+# .vscode
+.env
 .DS_Store
+.husky
 .env.local
 .env.development.local
 .env.test.local

@@ -1,0 +1,58 @@
+require('./_register.js')
+
+const { spawn } = require('child_process')
+// const slack = global.SLACK
+
+/**
+ * To fix windows error
+ */
+const appAlias = app => /^win/.test(process.platform) ? `${app}.cmd` : app
+
+const scripts = [
+  [appAlias('npx'), [
+    'sequelize', 'db:create',
+    '--encoding', 'UTF8',
+    '--collate', 'en_US.UTF-8',
+    '--ctype', 'en_US.UTF-8',
+    '--template', 'template0'
+  ]],
+  [appAlias('npm'), ['run', 'migrate']],
+  [appAlias('npm'), ['run', 'seed']]
+]
+
+const runCMD = (cmd, options) => new Promise((resolve, reject) => {
+  const output = [`Execute: ${cmd} ${options.join(' ')}`]
+  const execCMD = spawn(cmd, options)
+
+  execCMD.stdout.on('data', data => output.push(data))
+  execCMD.stderr.on('data', data => output.push(data))
+
+  execCMD.on('error', error => {
+    // slack.sendError(`Initial:\n${output.join('\n').replace(/[\n]{2,}/gm, '\n')}`)
+    return reject(error)
+  })
+
+  execCMD.on('close', code => {
+    if (code) {
+      return reject(new Error(output.join('\n').replace(/[\n]{2,}/gm, '\n')))
+    }
+    // slack.sendReport(`Initial:\n${output.join('\n').replace(/[\n]{2,}/gm, '\n')}`)
+    return resolve(output.join('\n').replace(/[\n]{2,}/gm, '\n'))
+  })
+})
+
+async function run () {
+  for (const script of scripts) {
+    try {
+      console.log('====================================================')
+      const message = await runCMD(...script)
+      console.log(message)
+    } catch (error) {
+      console.log(script)
+      console.log(error)
+      // slack.sendError(error.message)
+    }
+  }
+}
+
+run()

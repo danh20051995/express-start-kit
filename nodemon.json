@@ -4,8 +4,8 @@
     "NODE_ENV": "development"
   },
   "ignore": [
+    "temp/",
     "public/",
-    "app/views",
     "node_modules/"
   ],
   "ext": "js ts json html css vue template"

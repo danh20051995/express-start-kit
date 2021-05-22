@@ -2,10 +2,8 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "baseUrl": ".",
-    "paths": {     
-      "_root/*": ["*"],
-      "_utils/*": ["app/utils/*"],
-      "_module/*": ["app/module/*"]
+    "paths": {
+      "@/*": ["src/*"]
     }
   },
   "exclude": ["node_modules"]
