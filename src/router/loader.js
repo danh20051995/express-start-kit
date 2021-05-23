@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { DocumentationRouter } from './swagger'
 import { handlerAuthentication } from './handler-authentication'
-import { handlerAuthorize } from './handler-authorize'
+import { handlerAuthorization } from './handler-authorization'
 import { handlerValidation } from './handler-validation'
 import { handlerPreRouter } from './handler-pre'
 import { handlerException } from './handler-exception'
@@ -23,7 +23,7 @@ function injectRoutes (routes) {
       if (auth) {
         _handlers.push(
           handlerAuthentication(auth),
-          handlerAuthorize(auth)
+          handlerAuthorization(auth)
         )
       }
 
