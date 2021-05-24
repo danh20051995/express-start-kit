@@ -11,6 +11,18 @@ const _canRefreshIn = { months: 1 }
 
 const DefaultConfig = {}
 
+/**
+ * @param {string} key
+ * @returns {string}
+ */
+function keyWithoutPrefix (key) {
+  const regex = new RegExp(`^${RedisService.options.keyPrefix}`)
+  if (RedisService.options.keyPrefix && regex.test(key)) {
+    return key.substr(RedisService.options.keyPrefix.length)
+  }
+  return key
+}
+
 export class AuthenticateService {
   /**
    * private properties
@@ -80,33 +92,29 @@ export class AuthenticateService {
   }
 
   /**
-   * @param {{ payload: string, secret?: string, isRefresh?: boolean }}
+   * @param {{ type: 'redisKey'|'tokenId', value: string }} payload
+   * @param {string} secret
    * @returns {string} jwtToken
    */
-  static sign ({ payload, secret = _jwtSecret, isRefresh } = {}) {
-    const prefix = isRefresh ? 'refresh-token-id:' : ''
-    return jwt.sign(`${prefix}${payload}`, secret)
+  static sign (payload, secret = _jwtSecret) {
+    return jwt.sign(payload, secret)
   }
 
   /**
-   * @param {{ jwtToken: string, secret?: string, isRefresh?: boolean }} data verify information
-   * @returns {string} redis key or token _id
+   * @param {{ jwtToken: string, secret?: string, isRefresh?: boolean }} verify information
+   * @returns {string} redisKey|tokenId
    */
-  static verify ({ jwtToken, secret = _jwtSecret, isRefresh } = {}) {
-    const key = jwt.verify(jwtToken, secret)
-    if (!key) {
+  static verify ({ jwtToken, secret = _jwtSecret, isRefresh = false }) {
+    const data = jwt.verify(jwtToken, secret)
+    if (!data || !data.value) {
       throw new Error('Unauthorized')
     }
 
-    if (isRefresh) {
-      if (!key.startsWith('refresh-token-id:')) {
-        throw new Error('Unauthorized')
-      }
-
-      return key.replace('refresh-token-id:', '')
+    if (isRefresh && data.type !== 'tokenId') {
+      throw new Error('Unauthorized')
     }
 
-    return key
+    return keyWithoutPrefix(data.value)
   }
 
   /**
@@ -115,7 +123,9 @@ export class AuthenticateService {
    * @returns {object} credentials
    */
   static async getCredentials (redisKey) {
-    const credentials = await RedisService.get(redisKey)
+    const credentials = await RedisService.get(
+      keyWithoutPrefix(redisKey)
+    )
     if (!credentials) {
       throw new Error('Unauthorized')
     }
@@ -175,19 +185,21 @@ export class AuthenticateService {
     })
 
     token.key = [
+      RedisService.options.keyPrefix,
       'credentials',
       this.#_ref.replace(/Id$/gi, ''),
       moment(this.#_timestamp).format('YYYY:MM:DD'),
       this.#_profile._id,
       token._id
-    ].join(':')
+    ].filter(Boolean).join(':')
 
     this.token = token.token = AuthenticateService.sign({
-      payload: token.key
+      type: 'redisKey',
+      value: token.key
     })
     this.refreshToken = token.refreshToken = AuthenticateService.sign({
-      payload: token._id,
-      isRefresh: true
+      type: 'tokenId',
+      value: token._id
     })
     await token.save()
     this.#_token = token
@@ -205,7 +217,7 @@ export class AuthenticateService {
     } = this.#_profile.toJSON()
 
     await RedisService.set(
-      this.#_token.key,
+      keyWithoutPrefix(this.#_token.key),
       JSON.stringify({
         ...credentials,
         ref: this.#_ref
