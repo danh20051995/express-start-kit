@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  # redis-cli:
+  #   depends_on:
+  #     - redis
+  #   image: redis
+  #   command: >
+  #     sh -c "redis-cli -h host.docker.internal ping &&
+  #            redis-cli -h host.docker.internal keys "*""
+
+  express-start-kit:
+    build: .
+    image: express-start-kit:latest
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=host.docker.internal
+      - REDIS_HOST=host.docker.internal
+      - CHROME_BIN=/usr/bin/chromium-browser
+    # network_mode: host
+    ports:
+      - 3000:3000

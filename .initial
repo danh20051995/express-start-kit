@@ -1,0 +1,83 @@
+require('./_register.js')
+
+const Config = require('config')
+const { spawn } = require('child_process')
+
+/**
+ * To fix windows error
+ */
+const appAlias = app => /^win/.test(process.platform) ? `${app}.cmd` : app
+
+const getCreateDatabaseScript = () => {
+  const dbDialect = Config.get('db.dialect')
+  switch (dbDialect) {
+    case 'mysql':
+      return [appAlias('npx'), [
+        'sequelize', 'db:create',
+        '--encoding', 'utf8',
+        '--collate', 'utf8_general_ci',
+        '--ctype', 'utf8_general_ci',
+        '--template', 'template0'
+      ]]
+    case 'postgresql':
+      return [appAlias('npx'), [
+        'sequelize', 'db:create',
+        '--encoding', 'UTF8',
+        '--collate', 'en_US.UTF-8',
+        '--ctype', 'en_US.UTF-8',
+        '--template', 'template0'
+      ]]
+  }
+}
+
+const scripts = [
+  getCreateDatabaseScript(),
+  [appAlias('npm'), ['run', 'migrate']],
+  [appAlias('npm'), ['run', 'seed']]
+]
+
+const runCMD = (cmd, options) => new Promise((resolve, reject) => {
+  const output = [`Execute: ${cmd} ${options.join(' ')}`]
+  const execCMD = spawn(cmd, options)
+
+  execCMD.stdout.on('data', data => output.push(
+    data
+    // data.toString
+    //   ? data.toString()
+    //   : data
+  )
+  )
+  execCMD.stderr.on('data', data => output.push(
+    data
+    // data.toString
+    //   ? data.toString()
+    //   : data
+  )
+  )
+
+  execCMD.on('error', error => {
+    return reject(error)
+  })
+
+  execCMD.on('close', code => {
+    if (code) {
+      return reject(new Error(output.join('\n').replace(/[\n]{2,}/gm, '\n')))
+    }
+    return resolve(output.join('\n').replace(/[\n]{2,}/gm, '\n'))
+  })
+})
+
+async function run() {
+  for (const script of scripts) {
+    try {
+      console.log('====================================================')
+      const message = await runCMD(...script)
+      console.log(message)
+    } catch (error) {
+      console.log(script)
+      console.log(error)
+    }
+  }
+}
+
+run()
