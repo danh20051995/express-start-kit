@@ -22,7 +22,7 @@ cp .env.example .env
 
 ``` bash
 # install dependencies
-npm install
+npm ci
 
 # serve with hot reload and linter
 npm run start
