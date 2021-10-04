@@ -7,11 +7,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.dinovative.com/dinosysOrg/express-start-kit.git"
+    "url": "git+https://github.com/danh20051995/express-start-kit.git"
   },
-  "homepage": "https://gitlab.dinovative.com/dinosysOrg/express-start-kit#readme",
+  "homepage": "https://github.com/danh20051995/express-start-kit#readme",
   "bugs": {
-    "url": "https://gitlab.dinovative.com/dinosysOrg/express-start-kit/issues"
+    "url": "https://github.com/danh20051995/express-start-kit/issues"
   },
   "keywords": [
     "express",
