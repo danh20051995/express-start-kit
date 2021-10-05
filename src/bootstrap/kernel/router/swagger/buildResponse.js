@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { HTTP } from '@/bootstrap/kernel/http'
 import { uniqKeepLast } from '@/utils/array'
 
@@ -6,24 +7,19 @@ const mimeType = {
 }
 
 export const isSequelizeModel = Model => {
-  if (!Model || !Model.tableName || typeof Model.tableName !== 'string') {
+  if (!Model || !Model.tableName || typeof Model.tableName !== 'string' || !Model.queryInterface?.sequelize) {
     return false
   }
 
   return true
 }
 
-export const validSequelizeModel = Model => {
-  if (!isSequelizeModel(Model)) {
-    throw new Error('Model must be an Sequelize Model')
-  }
-
-  return true
+export const isMongooseModel = Model => {
+  return Model.prototype instanceof mongoose.Model
 }
 
 const mapModelNameToSwaggerSchemaPath = Model => {
-  validSequelizeModel(Model)
-  return `#/components/schemas/${Model.tableName}`
+  return `#/components/schemas/${Model.tableName || Model.modelName}`
 }
 
 function replaceRefModelBySchema (schema = {}) {
@@ -35,8 +31,12 @@ function replaceRefModelBySchema (schema = {}) {
     return { $ref: mapModelNameToSwaggerSchemaPath(schema) }
   }
 
+  if (isMongooseModel(schema)) {
+    return { $ref: mapModelNameToSwaggerSchemaPath(schema) }
+  }
+
   for (const key of Object.keys(schema)) {
-    if (key === '$ref' || isSequelizeModel(schema[key])) {
+    if (key === '$ref' || isSequelizeModel(schema[key]) || isMongooseModel(schema[key])) {
       schema[key] = key === '$ref'
         ? mapModelNameToSwaggerSchemaPath(schema[key])
         : { $ref: mapModelNameToSwaggerSchemaPath(schema[key]) }

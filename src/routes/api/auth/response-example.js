@@ -1,11 +1,11 @@
 import { HTTP } from '@/bootstrap/kernel/http'
 import { buildResponse } from '@/bootstrap/kernel/router/swagger/buildResponse'
-import { User } from '@/database/models'
+import { UserModel } from '@/database/models'
 
 export const login = buildResponse(
   {
     code: HTTP._CODE.BAD_REQUEST,
-    description: 'OTP invalid'
+    description: 'Invalid credentials'
   },
   {
     code: HTTP._CODE.OK,
@@ -21,7 +21,7 @@ export const login = buildResponse(
   }
 )
 
-export const profile = buildResponse({ code: HTTP._CODE.OK, schema: User })
+export const profile = buildResponse({ code: HTTP._CODE.OK, schema: UserModel })
 
 export const refreshToken = buildResponse(
   {

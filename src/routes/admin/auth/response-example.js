@@ -3,7 +3,10 @@ import { buildResponse } from '@/bootstrap/kernel/router/swagger/buildResponse'
 import { AdministratorModel } from '@/database/models'
 
 export const login = buildResponse(
-  { code: HTTP._CODE.BAD_REQUEST, description: 'Invalid credentials' },
+  {
+    code: HTTP._CODE.BAD_REQUEST,
+    description: 'Invalid credentials'
+  },
   {
     code: HTTP._CODE.OK,
     description: 'Login successed',

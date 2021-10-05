@@ -1,7 +1,7 @@
-import models from '@/database/models'
+import * as models from '@/database/models'
 import { Converter } from './converter'
 import swaggerUI from './swagger-ui-express'
-import { sequelizeModelsToSchemas } from './model-to-swagger'
+import { convertModelsToSwaggerSchemas } from './model-to-swagger'
 
 const _options = {
   swagger: {
@@ -92,7 +92,7 @@ function generateDocRouter () {
       ..._options.swagger.components,
       schemas: {
         ..._options.swagger.components.schemas,
-        ...sequelizeModelsToSchemas(models)
+        ...convertModelsToSwaggerSchemas(models)
       }
     },
     paths: recursiveRoutePaths(_options.routes, _options.swagger.paths)

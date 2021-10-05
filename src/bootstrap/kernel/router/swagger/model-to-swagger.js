@@ -1,3 +1,6 @@
+import mongooseToSwagger from 'mongoose-to-swagger'
+import { isMongooseModel, isSequelizeModel } from './buildResponse'
+
 const mapSequelizeToSwaggerDataType = (sequelizeType) => {
   const mapper = (key) => {
     switch (key) {
@@ -18,19 +21,15 @@ const mapSequelizeToSwaggerDataType = (sequelizeType) => {
   return mapper(sequelizeType.key)
 }
 
-/**
- * @param {{ name: string; model: import('sequelize').Model }} param
- */
-const sequelizeModelToSchema = ({ name, model }) => {
+const convertSequelizeModelToSwaggerSchema = (model) => {
+  const name = model.tableName
   const fieldNames = Object.keys(model.rawAttributes)
-  const properties = fieldNames.reduce((props, fieldName) => {
-    return {
-      ...props,
-      [fieldName]: {
-        ...mapSequelizeToSwaggerDataType(model.rawAttributes[fieldName].type)
-      }
+  const properties = fieldNames.reduce((props, fieldName) => ({
+    ...props,
+    [fieldName]: {
+      ...mapSequelizeToSwaggerDataType(model.rawAttributes[fieldName].type)
     }
-  }, {})
+  }), {})
 
   return {
     [name]: {
@@ -40,14 +39,37 @@ const sequelizeModelToSchema = ({ name, model }) => {
   }
 }
 
+const convertMongooseModelToSwaggerSchema = (model) => {
+  const { title: name, properties } = mongooseToSwagger(model)
+
+  return {
+    [name]: {
+      type: 'object',
+      properties
+    }
+  }
+}
+
+const convertModelToSwaggerSchema = (model) => {
+  if (isSequelizeModel(model)) {
+    return convertSequelizeModelToSwaggerSchema(model)
+  }
+  if (isMongooseModel(model)) {
+    return convertMongooseModelToSwaggerSchema(model)
+  }
+
+  console.warn('Arguments[0] must be a model')
+
+  return {}
+}
+
 /**
- * @param {{ [key in string]: import('sequelize').Model }} models
  * @returns {object}
  */
-export const sequelizeModelsToSchemas = (models) => {
-  const schemas = Object.entries(models)
-    .filter(([modelName]) => !modelName.endsWith('Model'))
-    .map(([_, model]) => sequelizeModelToSchema({ name: model.tableName, model }))
+export const convertModelsToSwaggerSchemas = (models) => {
+  const schemas = Object
+    .entries(models)
+    .map(([_, model]) => convertModelToSwaggerSchema(model))
 
   return schemas.reduce(
     (result, schema) => ({

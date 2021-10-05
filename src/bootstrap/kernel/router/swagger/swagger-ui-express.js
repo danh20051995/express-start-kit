@@ -173,12 +173,12 @@ const generateHTML = function (swaggerDoc, opts) {
   let customJs
   let customCssUrl
   let customCss
-  let customfavIcon
+  let customFavIcon
   let customSiteTitle
   if (opts && typeof opts === 'object') {
     customCss = opts.customCss
     customJs = opts.customJs
-    customfavIcon = opts.customfavIcon
+    customFavIcon = opts.customFavIcon
     isExplorer = opts.explorer || !!opts.swaggerUrls
     customSiteTitle = opts.customSiteTitle
     customCssUrl = opts.customCssUrl
@@ -188,10 +188,10 @@ const generateHTML = function (swaggerDoc, opts) {
   }
   const explorerString = isExplorer ? '' : '.swagger-ui .topbar .download-url-wrapper { display: none }'
   customCss = explorerString + ' ' + customCss || explorerString
-  customfavIcon = customfavIcon || false
+  customFavIcon = customFavIcon || false
   customSiteTitle = customSiteTitle || 'Swagger UI'
 
-  const favIconString = customfavIcon ? '<link rel="icon" href="' + customfavIcon + '" />' : favIconHtml
+  const favIconString = customFavIcon ? '<link rel="icon" href="' + customFavIcon + '" />' : favIconHtml
   const htmlWithCustomCss = htmlTplString.replace('<% customCss %>', customCss)
   const htmlWithFavIcon = htmlWithCustomCss.replace('<% favIconString %>', favIconString)
   const htmlWithCustomJs = htmlWithFavIcon.replace('<% customJs %>', customJs ? `<script src="${customJs}"></script>` : '')
@@ -218,7 +218,7 @@ function swaggerInitFn (req, res, next) {
  * @param {{
  *   customCss?: string,
  *   customJs?: string,
- *   customfavIcon?: string,
+ *   customFavIcon?: string,
  *   explorer?: boolean,
  *   swaggerUrls?: string[],
  *   customSiteTitle?: string,
