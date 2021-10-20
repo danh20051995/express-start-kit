@@ -1,6 +1,6 @@
 import * as Validate from './validate'
 import * as Controller from './controller'
-import * as ResponseExample from './response-example'
+import * as Swagger from './swagger'
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
     validation: Validate.login,
     handler: Controller.login,
     swagger: {
-      response: ResponseExample.login
+      response: Swagger.login
     }
   },
   {
@@ -26,7 +26,7 @@ export default [
     },
     validation: Validate.logout,
     swagger: {
-      response: ResponseExample.logout
+      response: Swagger.logout
     },
     handler: Controller.logout
   },
@@ -40,7 +40,7 @@ export default [
       allow: 'admin'
     },
     swagger: {
-      response: ResponseExample.getProfile
+      response: Swagger.getProfile
     },
     validation: Validate.getProfile,
     handler: Controller.getProfile
@@ -52,7 +52,7 @@ export default [
     summary: 'Refresh token',
     auth: { mode: 'try' },
     swagger: {
-      response: ResponseExample.refreshToken
+      response: Swagger.refreshToken
     },
     validation: Validate.refreshToken,
     handler: Controller.refreshToken

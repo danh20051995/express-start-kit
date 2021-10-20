@@ -85,5 +85,3 @@ export const bootstrap = () => {
 
   return app
 }
-
-export default bootstrap

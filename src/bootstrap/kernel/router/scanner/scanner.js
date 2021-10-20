@@ -101,5 +101,3 @@ export const RouterScanner = {
       }, {})
   }
 }
-
-export default RouterScanner

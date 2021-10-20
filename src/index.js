@@ -1,6 +1,6 @@
 import os from 'os'
 import Config from 'config'
-import bootstrap from '@/bootstrap'
+import { bootstrap } from '@/bootstrap'
 
 const app = bootstrap()
 const port = Config.get('connection.port')

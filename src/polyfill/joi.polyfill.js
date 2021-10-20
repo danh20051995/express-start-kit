@@ -1,13 +1,9 @@
-import Joi from 'joi'
+const Joi = require('joi')
 
-/**
- * @param {string[]} fields
- * @returns {string[]}
- */
-export const generateOrderOptions = (fields = []) => {
+const generateOrderOptions = (fields = []) => {
   return fields.reduce(
-    (orderOptions, field) => [
-      ...orderOptions,
+    (sortOptions, field) => [
+      ...sortOptions,
       `${field}-ASC`,
       `${field}-DESC`
     ],
@@ -20,11 +16,13 @@ export const generateOrderOptions = (fields = []) => {
   )
 }
 
-export const joiPagination = () => Joi.object({
+const joiObjectId = () => Joi.string().regex(/^[0-9a-fA-F]{24}$/)
+
+const joiPagination = () => Joi.object({
   page: Joi.number().integer().min(1).default(1).description('Pagination page'),
   limit: Joi.number().integer().min(1).max(100).default(10).description('Pagination limit'),
   offset: Joi.number().integer().min(0).default(0).description('Pagination offset'),
-  order: Joi.string().valid(...generateOrderOptions()).default('createdAt-DESC').description('Pagination order')
+  sort: Joi.string().valid(...generateOrderOptions()).default('createdAt-DESC').description('Pagination sort')
 })
 
 /**
@@ -32,7 +30,7 @@ export const joiPagination = () => Joi.object({
  * @param {object} obj
  * @param {string[]} [obj.mimetypes]
  */
-export const joiFile = ({ mimetypes = [] } = {}) => Joi
+const joiFile = ({ mimetypes = [] } = {}) => Joi
   .object({
     size: Joi.number().required(),
     path: Joi.string().required(),
@@ -52,8 +50,40 @@ export const joiFile = ({ mimetypes = [] } = {}) => Joi
  * @param {object} obj
  * @param {string[]} [obj.mimetypes]
  */
-export const joiFiles = (...args) => Joi
+const joiFiles = (...args) => Joi
   .array()
   .single()
   .items(joiFile(...args))
   .meta({ type: 'files' })
+
+Joi.objectId = joiObjectId
+Joi.pagination = joiPagination
+Joi.file = joiFile
+Joi.files = joiFiles
+
+module.exports = {
+  generateOrderOptions,
+  joiObjectId,
+  joiPagination,
+  joiFile,
+  joiFiles
+}
+
+// const Joi = require('joi')
+// const objIdPattern = /^[0-9a-fA-F]{24}$/
+
+// const isValid = function (value) {
+//   return (Boolean(value) && !Array.isArray(value) && objIdPattern.test(String(value)))
+// }
+
+// module.exports = Joi.extend({
+//   type: 'objectId',
+//   messages: {
+//     invalid: 'It must have a valid ObjectId.'
+//   },
+//   validate (value, { error }) {
+//     if (!isValid(value)) {
+//       return { value, errors: error('invalid') }
+//     }
+//   }
+// })

@@ -137,8 +137,8 @@ export const RouterLoader = {
       router.use(path, DocumentationRouter.config({
         swagger,
         routes,
-        custom: {
-          customOptions: {
+        swaggerUiOptions: {
+          swaggerOptions: {
             withCredentials: true
           }
         }
@@ -148,5 +148,3 @@ export const RouterLoader = {
     return router
   }
 }
-
-export default RouterLoader

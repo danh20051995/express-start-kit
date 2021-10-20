@@ -1,6 +1,7 @@
+import { Router } from 'express'
+import swaggerUI from 'swagger-ui-express'
 import * as models from '@/database/models'
 import { Converter } from './converter'
-import swaggerUI from './swagger-ui-express'
 import { convertModelsToSwaggerSchemas } from './model-to-swagger'
 
 const _options = {
@@ -21,7 +22,7 @@ const _options = {
     paths: {}
   },
   routes: {},
-  custom: {
+  swaggerUiOptions: {
     customSiteTitle: 'Documentation',
     customCss: `
        .swagger-ui .topbar { display: none }
@@ -66,7 +67,7 @@ function recursiveRoutePaths (routes, paths = {}, prefix = '') {
           ...paths[_pathKey],
           [method]: {
             summary: converter.summary(),
-            tags: _tags.map(t => `[${(_prefix || 'default').replace(/(^\/)|(\/$)/, '')}]-${t}`),
+            tags: _tags.map(t => `${(_prefix || 'default').replace(/(^\/)|(\/$)/, '').replace(/(\/)|(\/)/, '-')}-${t}`),
             security: converter.security(),
             responses: converter.responses(),
             operationId: converter.operationId(),
@@ -98,15 +99,44 @@ function generateDocRouter () {
     paths: recursiveRoutePaths(_options.routes, _options.swagger.paths)
   }
 
-  return swaggerUI.setup(swaggerSpecs, {
-    ..._options.custom,
-    customSiteTitle: _options.swagger?.info?.title || 'Documentation'
-  })
+  const router = Router()
+  router.use('/', swaggerUI.serve)
+  router.get('/', swaggerUI.setup(swaggerSpecs, {
+    ..._options.swaggerUiOptions,
+    customSiteTitle: _options.swagger?.info?.title || 'Documentation',
+    swaggerOptions: {
+      withCredentials: false, // enables passing credentials|same domain only
+      layout: 'StandaloneLayout',
+      tagsSorter: 'alpha', // can also be a function
+      apisSorter: 'alpha', // can also be a function
+      // can also be 'alpha', 'method' or a function
+      operationsSorter: (a, b) => {
+        const methodsOrder = ['get', 'post', 'put', 'patch', 'delete', 'options', 'trace']
+        let result = methodsOrder.indexOf(a.get('method')) - methodsOrder.indexOf(b.get('method'))
+
+        if (result === 0) {
+          result = a.get('path').localeCompare(b.get('path'))
+        }
+
+        return result
+      },
+      ..._options.swaggerUiOptions.swaggerOptions
+    }
+  }))
+
+  return router
 }
 
 export const DocumentationRouter = {
   _options,
-  config: ({ swagger, routes, custom } = _options) => {
+  /**
+   * @param {{
+   *   swagger: typeof _options.swagger
+   *   routes: { [key in string]: any }
+   *   swaggerUiOptions: import('swagger-ui-express').SwaggerUiOptions
+   * }}
+   */
+  config: ({ swagger, routes, swaggerUiOptions } = _options) => {
     _options.swagger = {
       ..._options.swagger,
       ...swagger
@@ -115,9 +145,9 @@ export const DocumentationRouter = {
       ..._options.routes,
       ...routes
     }
-    _options.custom = {
-      ..._options.custom,
-      ...custom
+    _options.swaggerUiOptions = {
+      ..._options.swaggerUiOptions,
+      ...swaggerUiOptions
     }
     return generateDocRouter()
   }

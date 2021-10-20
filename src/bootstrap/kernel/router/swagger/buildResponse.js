@@ -51,15 +51,23 @@ function replaceRefModelBySchema (schema = {}) {
 export const paginationResponse = Model => ({
   type: 'object',
   properties: {
-    count: {
+    offset: {
+      type: 'integer',
+      example: 0
+    },
+    limit: {
+      type: 'integer',
+      example: 10
+    },
+    total: {
       type: 'integer',
       example: 100
     },
-    currentPage: {
+    page: {
       type: 'integer',
       example: 1
     },
-    totalPages: {
+    pages: {
       type: 'integer',
       example: 10
     },
@@ -81,7 +89,7 @@ export const arrayResponse = Model => ({
  * Build swagger response
  *
  * @param  {Array.<{ code: Number, description: String?, example: Object?, mimeType: String?, schema: any? }>} responses
- * @return {Object}
+ * @return {{ [httpCode in number]: { description: string, content: { [mimeType in string]: { example?: any } } } }}
  */
 export const buildResponse = (...responses) => {
   const sanitizedResponses = uniqKeepLast(responses, response => response.code)

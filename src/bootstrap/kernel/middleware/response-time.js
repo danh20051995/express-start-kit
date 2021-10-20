@@ -54,9 +54,14 @@ export const responseTimeLogger = (req, res, next) => {
   //   )
   // })
 
-  const listenEvent = 'end'
+  // res.on('finish', () => console.log('res.finish'))
+  // res.on('close', () => console.log('res.close'))
+  // req.on('end', () => console.log('req.end'))
+  // req.on('close', () => console.log('req.close'))
+
+  const listenEvent = 'close'
   const _timestamp = new Date()
-  req.on(listenEvent, function timeLogger () {
+  res.on(listenEvent, function timeLogger () {
     const time = new Date() - _timestamp
     console.log(
       [

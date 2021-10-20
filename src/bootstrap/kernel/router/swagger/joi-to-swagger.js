@@ -323,7 +323,7 @@ const parseAsType = {
   }
 }
 
-const joiToSwagger = (schema, existingComponents = {}) => {
+export const joiToSwagger = (schema, existingComponents = {}) => {
   if (!schema) {
     throw new Error('No schema was passed')
   }
@@ -410,5 +410,3 @@ const joiToSwagger = (schema, existingComponents = {}) => {
 
   return { swagger, components }
 }
-
-export default joiToSwagger

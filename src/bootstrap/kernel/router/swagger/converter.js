@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 
 import { HTTP } from '../../http'
-import joiToSwagger from './joi-to-swagger'
+import { joiToSwagger } from './joi-to-swagger'
 
 export class Converter {
   #_route
@@ -268,6 +268,7 @@ export class Converter {
   static htmlEscape (string) {
     /** Used to map characters to HTML entities. */
     const htmlEscapes = {
+      $: '&#36;',
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
@@ -276,8 +277,8 @@ export class Converter {
     }
 
     /** Used to match HTML entities and HTML characters. */
-    const reUnescapedHtml = /[&<>"']/g
-    const reHasUnescapedHtml = RegExp(reUnescapedHtml.source)
+    const reUnescapedHtml = new RegExp(`[${Object.keys(htmlEscapes).join('')}]`, 'g')
+    const reHasUnescapedHtml = new RegExp(`[${Object.keys(htmlEscapes).join('')}]`)
     return (string && reHasUnescapedHtml.test(string))
       ? string.replace(reUnescapedHtml, (chr) => htmlEscapes[chr])
       : (string || '')

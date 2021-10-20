@@ -1,5 +1,4 @@
 import Joi from 'joi'
-import { joiFile, joiFiles, joiPagination } from '@/utils/joi-helpers'
 
 export const testValidation = {
   headers: Joi.object({
@@ -13,7 +12,7 @@ export const testValidation = {
     })
   }),
 
-  query: joiPagination(),
+  query: Joi.pagination(),
 
   body: Joi.object({
     username: Joi.string().required(),
@@ -21,8 +20,8 @@ export const testValidation = {
       'any.required': 'Password field is required',
       'string.min': 'Password must contain at least {{#limit}} characters long'
     }),
-    image: joiFile().required().messages({ 'any.required': 'Avatar field is required' }),
-    images: joiFiles().min(2).max(2).required().messages({
+    image: Joi.file().required().messages({ 'any.required': 'Avatar field is required' }),
+    images: Joi.files().min(2).max(2).required().messages({
       'array.min': '"images" must contain two items',
       'array.max': '"images" must contain two items'
     })

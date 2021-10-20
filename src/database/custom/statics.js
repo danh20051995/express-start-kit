@@ -5,7 +5,7 @@ import slugify from 'slugify'
  * @returns {Promise} pagination
  */
 async function paginate ({ page = 1, limit = 10, offset = 0, order = '', ...args } = {}) {
-  const { count, rows } = await this.findAndCountAll({
+  const { count: total, rows } = await this.findAndCountAll({
     ...args,
     limit,
     offset: (page - 1) * limit + offset,
@@ -17,10 +17,10 @@ async function paginate ({ page = 1, limit = 10, offset = 0, order = '', ...args
   })
 
   return {
-    count,
+    total,
     rows,
-    currentPage: page,
-    totalPages: Math.ceil(count / limit)
+    page,
+    pages: Math.ceil(total / limit)
   }
 }
 

@@ -44,7 +44,7 @@ Value of properties: `preAuth`, `auth`, `postAuth`, `preValidation`, `validation
 
 ## Swagger
 
-Thanks to the route interface, we can generate a corresponding swagger documentation for each route, but because of missing refelection in Javascript, some swagger spec such as response still need be documented manually by adding a `response-example.js` for each route.
+Thanks to the route interface, we can generate a corresponding swagger documentation for each route, but because of missing refelection in Javascript, some swagger spec such as response still need be documented manually by adding a `swagger.js` for each route.
 
 ### converter.js
 

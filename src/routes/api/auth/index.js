@@ -1,6 +1,6 @@
 import * as Validate from './validate'
 import * as Controller from './controller'
-import * as ResponseExample from './response-example'
+import * as Swagger from './swagger'
 
 export default [
   {
@@ -13,7 +13,7 @@ export default [
       allow: 'user'
     },
     swagger: {
-      response: ResponseExample.profile
+      response: Swagger.profile
     },
     validation: Validate.profile,
     handler: Controller.profile
@@ -25,7 +25,7 @@ export default [
     summary: 'User login with phone and password',
     auth: { mode: 'forbidden' },
     swagger: {
-      response: ResponseExample.login
+      response: Swagger.login
     },
     validation: Validate.login,
     handler: Controller.login
@@ -38,7 +38,7 @@ export default [
     auth: { mode: 'try' },
     validation: Validate.refreshToken,
     swagger: {
-      response: ResponseExample.refreshToken
+      response: Swagger.refreshToken
     },
     handler: Controller.refreshToken
   },

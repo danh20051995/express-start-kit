@@ -30,7 +30,7 @@ const routeSchema = Joi.object({
     Joi.string().lowercase().valid(...methods)
   ).default(['get']),
   path: Joi.string().required(),
-  tags: Joi.array().single().items(Joi.string()),
+  tags: Joi.array().single().unique().items(Joi.string()),
   summary: Joi.string(),
 
   preAuth: eventLayerSchema,
