@@ -1,10 +1,16 @@
 import http from 'http'
+import { HTTP } from '../http'
 
 export const handlerException = handler => {
   if (typeof handler !== 'function') {
     throw new Error('handler must be a function')
   }
 
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
   return (req, res, next) => {
     const handlerResponse = data => {
       if (res.headersSent || res.writableEnded || res.writableFinished || data instanceof http.ServerResponse) {
@@ -22,7 +28,7 @@ export const handlerException = handler => {
 
       if (typeof data !== 'undefined') {
         return res
-          .status(204)
+          .status(HTTP._CODE.OK)
           .end()
       }
     }

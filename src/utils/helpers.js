@@ -1,6 +1,6 @@
 import moment from 'moment'
 import crypto from 'crypto'
-import Config from 'config'
+import { Config } from '@/config'
 
 /**
  * Hash md5, return string

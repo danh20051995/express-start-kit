@@ -2,6 +2,7 @@
 
 const Package = require('@/../package')
 const {
+  NODE_ENV = 'development',
   PORT = 3000,
 
   DB_DIALECT,
@@ -11,7 +12,9 @@ const {
   DB_PASSWORD,
   DB_DATABASE,
 
-  JWT_SECRET
+  JWT_SECRET,
+
+  REQUEST_SIZE_LIMIT = '1mb'
 } = process.env
 
 module.exports = Object.freeze({
@@ -19,7 +22,40 @@ module.exports = Object.freeze({
   connection: {
     port: PORT,
     domain: `http://localhost:${PORT}`,
-    timeout: 30000 // 30s
+    timeout: 30000, // 30s
+    sizeLimit: REQUEST_SIZE_LIMIT
+  },
+  documentation: {
+    enabled: NODE_ENV !== 'production',
+    path: '/documentation'
+  },
+  /**
+   * @type {import('cors').CorsOptions}
+   */
+  cors: {
+    // origin: (requestOrigin, callback) => {
+    //   // TODO: some domain validate
+    //   callback(null, requestOrigin)
+    // },
+    origin: '*',
+    allowedHeaders: [
+      'accept',
+      'accept-encoding',
+      'accept-language',
+      'content-type',
+      'content-language',
+      'authorization'
+    ],
+    methods: [
+      'GET',
+      'HEAD',
+      'POST',
+      'PUT',
+      'PATCH',
+      'DELETE'
+    ],
+    exposedHeaders: ['authorization'],
+    credentials: false
   },
   db: {
     dialect: DB_DIALECT,

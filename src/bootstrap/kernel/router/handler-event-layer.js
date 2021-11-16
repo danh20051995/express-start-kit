@@ -38,6 +38,11 @@ const layerHandler = async ({ layers, event }, req, res, next) => {
  * Router layer-handler middleware
  */
 export const handlerRouteLayer = (layers, event) => {
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
   return (req, res, next) => {
     return layerHandler({ layers, event }, req, res, next)
       .then(next)

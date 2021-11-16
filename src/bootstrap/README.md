@@ -10,14 +10,15 @@
 └── kernel
    ├── http.js # defines common used HTTP status codes and HTTP Error, which extends Error. Route handlers aka controllers should throw HTTP Error instead of Error
    ├── middleware
-   |  ├── error-handling.js # 404 error handler and error handler
-   |  ├── inject-url-info.js # add a `URL` property into request.
-   |  ├── multipart-handling.js # handler multipart/form-data
-   |  ├── response-time.js
-   |  └── timeout-handling.js
+   |  ├── inject-url.js    # add a `URL` property into request.
+   |  ├── multipart.js     # handler multipart/form-data
+   |  ├── response-time.js # log request time
+   |  └── size-limit.js    # limit request size
+   |  └── timeout.js       # limit request timeout
    └── router
       ├── handler-authentication.js
       ├── handler-authorization.js
+      ├── handler-errors.js
       ├── handler-event-layer.js
       ├── handler-exception.js
       ├── handler-validation.js
@@ -25,15 +26,15 @@
       ├── loader.js # RouterLoader, which receives routers then builds the Express.Router hierarchy for whole app
       ├── scanner
       |  ├── index.js
-      |  ├── scanner.js # RouterScanner, used in src/routes/index.js to scan routes and build routers for RouterLoader
-      |  └── valid-routes.js # route validation schema, make sure all routes are defined in the same shape
+      |  ├── scanner.js       # RouterScanner, used in src/routes/index.js to scan routes and build routers for RouterLoader
+      |  └── valid-routes.js  # route validation schema, make sure all routes are defined in the same shape
       └── swagger
          ├── buildResponse.js # helper to build swagger response for each route
-         ├── converter.js # generate swagger spec from routes
+         ├── converter.js     # generate swagger spec from routes
          ├── index.js
-         ├── joi-to-swagger.js # convert Joi validation schema to swagger spec
-         ├── model-to-swagger.js # convert sequelize model to swagger schema
-         └── swagger-ui-express.js # style for swagger ui
+         ├── joi-to-swagger.js   # convert Joi validation schema to swagger spec
+         ├── model-to-swagger.js # convert sequelize|mongoose model to swagger schema
+         └── response.js         # sample swagger response data
 ```
 
 ## Route

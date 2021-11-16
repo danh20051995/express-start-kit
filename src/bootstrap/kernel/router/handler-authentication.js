@@ -1,5 +1,6 @@
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { AuthenticateService } from '@/services/authenticate'
+import { HTTP } from '../http'
 
 /**
  * Router authentication middleware
@@ -19,7 +20,7 @@ export const handlerAuthentication = (authOptions) => async (req, res, next) => 
     }
   }
 
-  const authorization = req.headers.authorization
+  const authorization = req.headers?.authorization || req.sessionCookies?.get('authorization')
   if (authorization) {
     const [tokenType, jwtToken] = authorization.split(/\s+/)
     if (jwtToken && tokenType === AuthenticateService.tokenType) {
@@ -42,7 +43,7 @@ export const handlerAuthentication = (authOptions) => async (req, res, next) => 
     // otherwise they will receive an error.
     case 'forbidden':
       if (authorization) {
-        return res.status(406).end()
+        return res.status(HTTP._CODE.NOT_ACCEPTABLE).end()
       }
       break
 
@@ -52,7 +53,7 @@ export const handlerAuthentication = (authOptions) => async (req, res, next) => 
     // otherwise they will receive an error.
     case 'required':
       if (!req.auth.isAuthenticated) {
-        return res.status(401).end()
+        return res.status(HTTP._CODE.UNAUTHORIZED).end()
       }
       break
 
@@ -61,7 +62,7 @@ export const handlerAuthentication = (authOptions) => async (req, res, next) => 
     // but must be valid if provided.
     case 'optional':
       if (authorization && !req.auth.isAuthenticated) {
-        return res.status(401).end()
+        return res.status(HTTP._CODE.UNAUTHORIZED).end()
       }
       break
 

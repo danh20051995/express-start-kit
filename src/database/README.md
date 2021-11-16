@@ -185,7 +185,7 @@ npm run seed
 e.g:
 
 ```js
-import Config from 'config'
+import { Config } from '@/config'
 import { Op } from 'sequelize'
 import { Administrator } from '@/database/models'
 import { AuthenticateService } from '@/services/authenticate'

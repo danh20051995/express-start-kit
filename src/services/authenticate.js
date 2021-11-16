@@ -3,7 +3,7 @@ import { Op } from 'sequelize'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import moment from 'moment'
-import Config from 'config'
+import { Config } from '@/config'
 import { TokenModel, UserModel, AdministratorModel } from '@/database/models'
 
 const _jwtSecret = Config.get('jwt.secret')

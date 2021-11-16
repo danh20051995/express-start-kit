@@ -1,3 +1,5 @@
+import { HTTP } from '../http'
+
 function parseAuthorizationStr (str) {
   return str
     .replace(/\s+/gm, '')
@@ -195,6 +197,11 @@ const authorization = (groups, { roles = [], permissions = [] }) => {
 export const handlerAuthorization = authOptions => {
   const rolesPermissions = parseAuthorizationOptions(authOptions.allow)
 
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
   return async (req, res, next) => {
     if (!rolesPermissions.length || authorization(rolesPermissions, req.auth.credentials)) {
       return next()
@@ -202,12 +209,12 @@ export const handlerAuthorization = authOptions => {
 
     const isAuthenticated = req.auth?.isAuthenticated
     if (!isAuthenticated) {
-      return res.status(401).end()
+      return res.status(HTTP._CODE.UNAUTHORIZED).end()
     }
 
     const isAllow = await authorization(rolesPermissions, req.auth)
     if (!isAllow) {
-      return res.status(403).end()
+      return res.status(HTTP._CODE.FORBIDDEN).end()
     }
 
     return next()

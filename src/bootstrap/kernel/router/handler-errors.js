@@ -3,10 +3,9 @@ import { HTTP } from '../http'
 
 /**
  * Catch 404
- * @param {Express.Request} req
- * @param {Express.Response} res
- * @param {NextFunction} next
- * @returns {Response}
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  */
 export const notFoundHandler = (req, res, next) => {
   const error = new HTTP(HTTP._CODE.NOT_FOUND, `Unknown path components: ${req.URL.pathname}`)
@@ -18,10 +17,9 @@ export const notFoundHandler = (req, res, next) => {
 /**
  * Error handler. Capture stack trace only during development
  * @param {HTTP} error
- * @param {Express.Request} req
- * @param {Express.Response} res
- * @param {NextFunction} next
- * @returns {Response}
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  */
 export const errorHandler = (error, req, res, next) => {
   /* create error log */

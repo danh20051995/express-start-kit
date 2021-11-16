@@ -41,7 +41,7 @@ const joiFile = ({ mimetypes = [] } = {}) => Joi
       : Joi.string().valid(...mimetypes).required(),
     // fieldname: Joi.string().required(),
     destination: Joi.string().required(),
-    originalname: Joi.string().required()
+    originalName: Joi.string().required()
   })
   .meta({ type: 'file' })
 

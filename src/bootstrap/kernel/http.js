@@ -1,7 +1,7 @@
 import pick from 'lodash/pick'
 import capitalize from 'lodash/capitalize'
 
-const _CODE = {
+const _CODE = Object.freeze({
   OK: 200,
   CREATED: 201,
   ACCEPTED: 202,
@@ -15,21 +15,27 @@ const _CODE = {
   REQUEST_TIMEOUT: 408,
   CONFLICT: 409,
   PRECONDITION_FAILED: 412,
+  PAYLOAD_TOO_LARGE: 413,
   UNSUPPORTED_MEDIA_TYPE: 415,
   UNPROCESSABLE_ENTITY: 422,
   TOO_MANY_REQUESTS: 429,
   INVALID_TOKEN: 498
-}
+})
 
-const definition = Object.entries(_CODE).reduce(
-  (merge, [type, code]) => ({
-    ...merge,
-    [code]: {
-      type,
-      message: capitalize(type.replace(/_/gm, ' '))
-    }
-  }),
-  {}
+/**
+ * @type {{ [key in number]: { type: keyof _CODE; message: string } }}
+ */
+const definition = Object.freeze(
+  Object.entries(_CODE).reduce(
+    (merge, [type, code]) => ({
+      ...merge,
+      [code]: {
+        type,
+        message: capitalize(type.replace(/_/gm, ' '))
+      }
+    }),
+    {}
+  )
 )
 
 export class HTTP extends Error {

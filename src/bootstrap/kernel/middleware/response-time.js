@@ -14,7 +14,12 @@ const spacingWrap = (str, length = 10) => {
   return `${str}${new Array(length - str.length).join(' ')}`
 }
 
-export const responseTimeLogger = (req, res, next) => {
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
+export const responseTimeMiddleware = (req, res, next) => {
   // const _timestamp = new Date()
   // const _writeHead = res.writeHead
   // res.writeHead = function writeHead () {
@@ -66,7 +71,7 @@ export const responseTimeLogger = (req, res, next) => {
     console.log(
       [
         // spacingWrap(listenEvent, 6),
-        spacingWrap(upperCase(req.method), 7),
+        spacingWrap(upperCase(req.method), 8),
         res.statusCode,
         spacingWrap(`${time} ms`, 9),
         req.URL.pathname.replace(/\/$g/, '')

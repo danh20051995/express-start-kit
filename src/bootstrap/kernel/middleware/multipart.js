@@ -5,7 +5,8 @@ import Busboy from 'busboy'
 
 const _cwd = process.cwd()
 const _options = {
-  tempDir: path.join(_cwd, 'temp')
+  tempDir: path.join(_cwd, 'temp'),
+  cleanup: false
 }
 
 /**
@@ -58,6 +59,11 @@ const removeUploadedFiles = files => {
   }
 }
 
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
 const requestHandler = (req, res, next) => {
   const isMultipart = String(req.headers['content-type']).startsWith('multipart/form-data;')
 
@@ -90,8 +96,8 @@ const requestHandler = (req, res, next) => {
   const settledPromises = []
   const busboy = new Busboy({ headers: req.headers })
 
-  busboy.on('file', function (fieldname, file, originalname, encoding, mimetype) {
-    const _ext = path.extname(originalname)
+  busboy.on('file', function (fieldname, file, originalName, encoding, mimetype) {
+    const _ext = path.extname(originalName)
 
     const filename = `${randStr(5)}-${new Date().getTime()}${_ext}`
     const destination = path.join(_options.tempDir, filename)
@@ -104,7 +110,7 @@ const requestHandler = (req, res, next) => {
       mimetype,
       // fieldname,
       destination,
-      originalname
+      originalName
     }
 
     settledPromises.push(
@@ -169,7 +175,12 @@ const requestHandler = (req, res, next) => {
           }
         )
 
-        res.on('close', () => removeUploadedFiles(files))
+        /**
+         * do cleanup after response
+         */
+        if (_options.cleanup) {
+          res.on('close', () => removeUploadedFiles(files))
+        }
 
         if (errors.length) {
           return next(errors[0])
@@ -184,10 +195,10 @@ const requestHandler = (req, res, next) => {
 
 /**
  * Handler multipart/form-data; file upload and merge to req.body
- * @param {object} options
+ * @param {typeof _options} options
  * @returns {void}
  */
-export const multipartHandler = (options = _options) => {
+export const multipartMiddleware = (options = _options) => {
   Object.assign(_options, options)
   ensureDirExists(_options.tempDir)
   return requestHandler

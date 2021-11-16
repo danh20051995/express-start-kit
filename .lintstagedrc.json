@@ -1,5 +1,5 @@
 {
   "!(log|public)*.+(js|jsx|ts)": [
-    "eslint"
+    "eslint --max-warnings 0"
   ]
 }

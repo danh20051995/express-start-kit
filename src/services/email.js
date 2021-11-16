@@ -1,6 +1,6 @@
 import Joi from 'joi'
 import nodemailer from 'nodemailer'
-import Config from 'config'
+import { Config } from '@/config'
 
 /* Initialize email service */
 const { transport, defaults } = Config.get('mailer')

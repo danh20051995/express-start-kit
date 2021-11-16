@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { DocumentationRouter } from './swagger'
 import { handlerAuthentication } from './handler-authentication'
 import { handlerAuthorization } from './handler-authorization'
 import { handlerRouteLayer } from './handler-event-layer'
@@ -102,49 +101,16 @@ function dynamicRoutes (_routes) {
   return router
 }
 
-const _options = {
-  routes: {},
-  docOptions: {
-    enable: true,
-    url: '',
-    path: '/',
-    swagger: {}
+export class RouterLoader {
+  constructor ({ routes } = { routes: {} }) {
+    this.routes = routes
   }
-}
 
-export const RouterLoader = {
-  _options,
-  config: ({
-    routes,
-    docOptions: {
-      enable,
-      url,
-      path,
-      swagger
-    } = {}
-  } = _options) => {
-    _options.routes = routes
-    const router = dynamicRoutes(routes)
-
-    /** inject documentation router */
-    if (enable) {
-      console.log(
-        `Documentation: ${[
-          url.replace(/\/$/g, ''),
-          path.replace(/^\//g, '')
-        ].join('/')}`
-      )
-      router.use(path, DocumentationRouter.config({
-        swagger,
-        routes,
-        swaggerUiOptions: {
-          swaggerOptions: {
-            withCredentials: true
-          }
-        }
-      }))
+  getRouter () {
+    if (!this.router) {
+      this.router = dynamicRoutes(this.routes)
     }
 
-    return router
+    return this.router
   }
 }

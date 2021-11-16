@@ -1,5 +1,5 @@
 import mongooseToSwagger from 'mongoose-to-swagger'
-import { isMongooseModel, isSequelizeModel } from './buildResponse'
+import { isMongooseModel, isSequelizeModel } from './util'
 
 const mapSequelizeToSwaggerDataType = (sequelizeType) => {
   const mapper = (key) => {

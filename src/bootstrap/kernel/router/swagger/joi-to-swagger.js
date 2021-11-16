@@ -59,7 +59,7 @@ const schemaForAlternatives = (alternatives, existingComponents, newComponentsBy
   let swaggers = []
 
   for (const joiSchema of alternatives) {
-    const swaggerConfig = joiToSwagger(
+    const joiSwaggerJson = joiToSwagger(
       joiSchema,
       merge(
         {},
@@ -67,11 +67,11 @@ const schemaForAlternatives = (alternatives, existingComponents, newComponentsBy
         newComponentsByRef || {}
       )
     )
-    if (!swaggerConfig || !swaggerConfig.swagger) {
+    if (!joiSwaggerJson || !joiSwaggerJson.swagger) {
       continue // swagger is falsy if joi.forbidden()
     }
 
-    const { swagger, components } = swaggerConfig
+    const { swagger, components } = joiSwaggerJson
 
     if (get(joiSchema, '_flags.presence') === 'required') {
       swagger['x-required'] = true
@@ -241,7 +241,7 @@ const parseAsType = {
 
     let swaggers = []
     for (const joiSchema of alternatives) {
-      const swaggerConfig = joiToSwagger(
+      const joiSwaggerJson = joiToSwagger(
         joiSchema,
         merge(
           {},
@@ -249,11 +249,11 @@ const parseAsType = {
           newComponentsByRef || {}
         )
       )
-      if (!swaggerConfig || !swaggerConfig.swagger) {
+      if (!joiSwaggerJson || !joiSwaggerJson.swagger) {
         continue // swagger is falsy if joi.forbidden()
       }
 
-      const { swagger, components } = swaggerConfig
+      const { swagger, components } = joiSwaggerJson
       merge(newComponentsByRef, components || {})
 
       swaggers.push(swagger)
@@ -285,12 +285,12 @@ const parseAsType = {
     const children = get(schema, '$_terms.keys') || []
     children.forEach((child) => {
       const key = child.key
-      const swaggerConfig = joiToSwagger(child.schema, combinedComponents)
-      if (!swaggerConfig || !swaggerConfig.swagger) { // swagger is falsy if joi.forbidden()
+      const joiSwaggerJson = joiToSwagger(child.schema, combinedComponents)
+      if (!joiSwaggerJson || !joiSwaggerJson.swagger) { // swagger is falsy if joi.forbidden()
         return
       }
 
-      const { swagger, components } = swaggerConfig
+      const { swagger, components } = joiSwaggerJson
       merge(newComponentsByRef, components || {})
       merge(combinedComponents, components || {})
 
